@@ -179,7 +179,7 @@ saltier water and with bottom currents going oppositely.
 
 // ─── Nomenclature (two-column) ────────────────────────────────────────────────
 // Mirrors \begin{nomenclature*}[2em][Nomenclature for Chapter 1][section]
-=== Nomenclature for Chapter 1 <sec:nomenclature>
+== Nomenclature for Chapter 1 <sec:nomenclature>
 
 #columns(2)[
   _Roman letters_

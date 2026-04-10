@@ -7,7 +7,7 @@ description = "Typst port of the MIT mitthesis LaTeX template (v1.22). Produces 
 repository = "https://github.com/joshpoll/muddy-mit-thesis"
 keywords = ["thesis", "mit", "academic"]
 categories = ["paper"]
-compiler = ">=0.14.0"
+entrypoint = "mitthesis.typ"
 exclude = ["template/MIT-Thesis.pdf"]
 
 [template]

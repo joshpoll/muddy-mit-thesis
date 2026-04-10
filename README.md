@@ -77,8 +77,6 @@ Only known warning: `unknown font family: new computer modern mono` if New Compu
 ## Known differences from the LaTeX original
 
 - Appendix B title wraps to two lines at 24.88 pt (long title)
-- List of Figures and List of Tables do not appear in the main TOC (Typst's `outline()` sets `outlined: false` on its own title by default)
-- "Nomenclature for Chapter 1" appears at subsection level rather than section level
 
 ## License
 

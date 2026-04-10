@@ -332,9 +332,13 @@
   // Mirrors report.cls @makechapterhead: 50pt top space, 20pt between label
   // and title, 40pt after title.  Unnumbered chapters omit the label line.
   show heading.where(level: 1): it => [
-    #counter(math.equation).update(0)
-    #counter(figure.where(kind: image)).update(0)
-    #counter(figure.where(kind: table)).update(0)
+    // Only reset per-chapter counters for numbered chapters/appendices,
+    // not for unnumbered front-matter headings like List of Figures.
+    #if it.numbering != none {
+      counter(math.equation).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+    }
     #pagebreak(to: "odd", weak: true)
     #v(50pt)
     #align(left)[
