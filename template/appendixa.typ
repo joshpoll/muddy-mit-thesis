@@ -1,7 +1,7 @@
 // appendixa.typ — Code listing appendix
 // Mirrors appendixa.tex; uses Typst's built-in raw blocks with syntax highlighting.
 
-= Code listing
+== Code listing
 
 This example uses Typst's built-in syntax highlighting for code blocks.
 

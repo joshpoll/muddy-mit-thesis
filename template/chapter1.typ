@@ -1,7 +1,7 @@
 // chapter1.typ — Introduction chapter
 // Mirrors chapter1.tex from mitthesis package
 
-= Introduction
+== Introduction
 
 #lorem(60) Postremo aliquos futuros suspicor, qui me ad alias litteras vocent, genus
 hoc scribendi, etsi sit elegans, personae tamen et dignitatis esse
@@ -9,7 +9,7 @@ negent @DKE1969 @ww1920 @kirk2288a @churchill1948 @gibbs1863.
 
 #lorem(70)
 
-== A section discussing the first issue: $J \/ psi$
+=== A section discussing the first issue: $J \/ psi$
 
 We begin with some ideas from the literature @Fong2015 @sharpe1.
 
@@ -50,13 +50,13 @@ in @fig:golden2.
 
 #lorem(65)
 
-=== Subsection eqn. (1.2) <sec:subsection-eqn>
+==== Subsection eqn. (1.2) <sec:subsection-eqn>
 
 #lorem(65)
 
 #lorem(65)
 
-==== A subsubsection
+===== A subsubsection
 
 #lorem(65)
 
@@ -73,7 +73,7 @@ L(bold(A)) = mat(
 )
 $ <eqn:WT1>
 
-== Description of our paradigm <sec:stratified-flow>
+=== Description of our paradigm <sec:stratified-flow>
 
 #lorem(65) No dissertation is complete without
 footnotes.#footnote[First footnote. $a_h = F_m$ See @sec:stratified-flow.]#footnote[Another
@@ -86,16 +86,16 @@ mind @reynolds1958 @clauser56 @lienhard2020 @johnson1980 @johnson1965 @mpl.]
   kind: image,
 ) <example-image-b>
 
-=== Conversion to a metaheuristic
+==== Conversion to a metaheuristic
 
 #lorem(65)
 
 #lorem(65) This concept is discussed further in @sec:stratified-flow, and
 @euler1740 @fourier1822.
 
-== Other generalizations
+=== Other generalizations
 
-=== The most general case
+==== The most general case
 
 #lorem(65) And another citation, so that our sources will be
 unambiguous @montijano2014.
@@ -117,7 +117,7 @@ $ "Zn"^(2+)
 These examples of chemical formulæ are copied directly from the documentation of
 the `mhchem` package, which was used to typeset them.
 
-== Baroclinic generation of vorticity <sec:baroclinic>
+=== Baroclinic generation of vorticity <sec:baroclinic>
 
 Substitution of the particle acceleration and application of Stokes' theorem
 leads to the _Kelvin–Bjerknes circulation theorem_, for $rho != op("fn")(p)$:
@@ -171,7 +171,7 @@ saltier water and with bottom currents going oppositely.
   )
 ] <tab:1>
 
-== Summary
+=== Summary
 
 #lorem(65)
 
@@ -179,7 +179,7 @@ saltier water and with bottom currents going oppositely.
 
 // ─── Nomenclature (two-column) ────────────────────────────────────────────────
 // Mirrors \begin{nomenclature*}[2em][Nomenclature for Chapter 1][section]
-== Nomenclature for Chapter 1 <sec:nomenclature>
+=== Nomenclature for Chapter 1 <sec:nomenclature>
 
 #columns(2)[
   _Roman letters_

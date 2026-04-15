@@ -1,7 +1,7 @@
 // biography.typ
 // Unnumbered chapter, not listed in Table of Contents (outlined: false).
 
-#heading(level: 1, numbering: none, outlined: false)[Biographical Sketch]
+#heading(level: 2, numbering: none, outlined: false)[Biographical Sketch]
 
 Silas Whitcomb Holman was born in Harvard, Massachusetts on January 20, 1856.
 He received his S.B. degree in Physics from MIT in 1876, and then joined the MIT

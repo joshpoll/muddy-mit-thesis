@@ -1,9 +1,9 @@
 // appendixb.typ — One-term coefficients for heat conduction (longtable example)
 // Mirrors appendixb.tex.  Typst tables break across pages automatically.
 
-= One-term coefficients for heat conduction
+== One-term coefficients for heat conduction
 
-== A multipage table of numbers
+=== A multipage table of numbers
 
 This example uses Typst's native table, which paginates automatically.
 $theta = A_1 f_1 exp(-lambda_1^2 op("Fo"))$,

@@ -1,6 +1,13 @@
 // mitthesis.typ — MIT Thesis Typst Template
 // Mirrors mitthesis.cls v1.22 (2026/01/31)
 // Compiles with: typst compile MIT-Thesis.typ
+//
+// Heading hierarchy:
+//   Level 1 (=)     → Part          (Roman numerals: I, II, …)
+//   Level 2 (==)    → Chapter       (Arabic: 1, 2, … or A, B, … in appendix)
+//   Level 3 (===)   → Section       (1.1, 1.2, …)
+//   Level 4 (====)  → Subsection    (1.1.1, …)
+//   Level 5 (=====) → Subsubsection (unnumbered)
 
 // ── Colors ─────────────────────────────────────────────────────────────────
 #let link-color = rgb("#0000CD")   // Blue3 (xcolor dvipsnames)
@@ -315,23 +322,56 @@
   )
 
   // ── Heading numbering (switches at appendix) ──────────────────────────────
-  // LaTeX report class: secnumdepth=2, so \subsubsection (level 4 in Typst)
-  // and deeper are unnumbered.
+  // LaTeX report class: secnumdepth=2, so \subsubsection (level 5 in Typst
+  // with parts) and deeper are unnumbered.
   set heading(
     numbering: (..nums) => context {
-      if nums.pos().len() > 3 { return none }  // level 4+ → unnumbered
-      if _in-appendix.get() {
-        numbering("A.1.1", ..nums)
+      let n = nums.pos()
+      let lvl = n.len()
+      if lvl == 1 {
+        // Part: Roman numeral
+        numbering("I", n.at(0))
+      } else if lvl == 2 {
+        // Chapter: display only the chapter component (skip the part counter)
+        if _in-appendix.get() { numbering("A", n.at(1)) }
+        else                  { numbering("1", n.at(1)) }
+      } else if lvl <= 4 {
+        // Section / subsection: chapter.section[.subsection]
+        if _in-appendix.get() { numbering("A.1.1", n.at(1), ..n.slice(2)) }
+        else                  { numbering("1.1.1", n.at(1), ..n.slice(2)) }
       } else {
-        numbering("1.1.1", ..nums)
+        none  // level 5+ → unnumbered
       }
     }
   )
 
-  // ── Level 1: Chapter / Appendix ──────────────────────────────────────────
+  // ── Level 1: Part ─────────────────────────────────────────────────────────
+  // Full divider page with "Part I" label and title, vertically centred.
+  show heading.where(level: 1): it => [
+    #pagebreak(to: "odd", weak: true)
+    #v(1fr)
+    #align(center)[
+      #if it.numbering != none {
+        context {
+          let num = numbering(it.numbering, ..counter(heading).at(here()))
+          block(above: 0pt, below: 0pt,
+            text(size: 24.88pt, weight: "bold")[Part #num]
+          )
+        }
+        v(20pt)
+      }
+      #block(above: 0pt, below: 0pt,
+        text(size: 24.88pt, weight: "bold", it.body)
+      )
+    ]
+    #v(1fr)
+    #pagebreak(to: "odd", weak: true)
+  ]
+
+  // ── Level 2: Chapter / Appendix ──────────────────────────────────────────
   // Mirrors report.cls @makechapterhead: 50pt top space, 20pt between label
   // and title, 40pt after title.  Unnumbered chapters omit the label line.
-  show heading.where(level: 1): it => [
+  show heading.where(level: 2): it => [
     // Only reset per-chapter counters for numbered chapters/appendices,
     // not for unnumbered front-matter headings like List of Figures.
     #if it.numbering != none {
@@ -364,9 +404,9 @@
     #v(40pt)
   ]
 
-  // ── Level 2: Section ─────────────────────────────────────────────────────
+  // ── Level 3: Section ─────────────────────────────────────────────────────
   // \Large\bfseries\raggedright, before: 3.5ex ≈ 15pt, after: 2.3ex ≈ 10pt
-  show heading.where(level: 2): it => [
+  show heading.where(level: 3): it => [
     #v(15pt, weak: true)
     #align(left)[
       #block(
@@ -379,9 +419,9 @@
     #v(10pt, weak: true)
   ]
 
-  // ── Level 3: Subsection ───────────────────────────────────────────────────
+  // ── Level 4: Subsection ───────────────────────────────────────────────────
   // \large\bfseries\raggedright, before: 3.25ex ≈ 14pt, after: 1.5ex ≈ 6.5pt
-  show heading.where(level: 3): it => [
+  show heading.where(level: 4): it => [
     #v(14pt, weak: true)
     #align(left)[
       #block(
@@ -394,9 +434,9 @@
     #v(6.5pt, weak: true)
   ]
 
-  // ── Level 4: Subsubsection ────────────────────────────────────────────────
+  // ── Level 5: Subsubsection ────────────────────────────────────────────────
   // \normalsize\bfseries, before: 3.25ex ≈ 14pt, after: 1.5ex ≈ 6.5pt
-  show heading.where(level: 4): it => [
+  show heading.where(level: 5): it => [
     #v(14pt, weak: true)
     #align(left)[
       #block(
@@ -412,7 +452,8 @@
   // ── Equations: numbered (chapter).(equation) ─────────────────────────────
   set math.equation(
     numbering: num => context {
-      let ch = counter(heading).at(here()).first()
+      let hnums = counter(heading).at(here())
+      let ch = if hnums.len() >= 2 { hnums.at(1) } else { hnums.first() }
       let in-app = _in-appendix.at(here())
       let prefix = if in-app { numbering("A", ch) } else { str(ch) }
       "(" + prefix + "." + str(num) + ")"
@@ -423,7 +464,8 @@
   // ── Figures: numbered (chapter).(figure) ─────────────────────────────────
   set figure(
     numbering: num => context {
-      let ch = counter(heading).at(here()).first()
+      let hnums = counter(heading).at(here())
+      let ch = if hnums.len() >= 2 { hnums.at(1) } else { hnums.first() }
       let in-app = _in-appendix.at(here())
       let prefix = if in-app { numbering("A", ch) } else { str(ch) }
       prefix + "." + str(num)
@@ -467,7 +509,9 @@
         let loc = it.element.location()
         let fig = it.element
         let pg = counter(page).at(loc).first()
-        let ch = counter(heading).at(loc).first()
+        let hnums = counter(heading).at(loc)
+        // Chapter counter is at index 1 when parts are in use (index 0 = part)
+        let ch = if hnums.len() >= 2 { hnums.at(1) } else { hnums.first() }
         let in-app = _in-appendix.at(loc)
         let ch-str = if in-app { numbering("A", ch) } else { str(ch) }
         let kind-counter = if fig.kind == image {
@@ -491,7 +535,22 @@
       // All level/numbering checks are done OUTSIDE context to avoid any
       // potential evaluation-order issues with it.level inside context {}.
       let unnumbered = it.element.numbering == none
-      if it.level == 1 and unnumbered {
+      if it.level == 1 {
+        // Part — bold blue, flush left, prominent spacing above
+        block(above: 8pt, below: 0pt,
+          context {
+            let loc = it.element.location()
+            let pg = counter(page).at(loc).first()
+            let nums = counter(heading).at(loc)
+            strong(text(fill: link-color, link(loc)[
+              #if not unnumbered [Part #numbering("I", nums.first())#h(1em)]
+              #it.element.body
+              #box(width: 1fr, repeat[.])
+              #str(pg)
+            ]))
+          }
+        )
+      } else if it.level == 2 and unnumbered {
         // Front/back matter (LoF, LoT, References) — italic blue, flush left
         block(above: 5pt, below: 0pt,
           context {
@@ -504,7 +563,7 @@
             ]))
           }
         )
-      } else if it.level == 1 {
+      } else if it.level == 2 {
         // Chapter/appendix — bold blue, flush left, extra space above
         [
           #v(6pt, weak: true)
@@ -513,7 +572,8 @@
             let pg = counter(page).at(loc).first()
             let in-app = _in-appendix.at(loc)
             let nums = counter(heading).at(loc)
-            let num-str = if in-app { numbering("A", nums.first()) } else { str(nums.first()) }
+            let ch = if nums.len() >= 2 { nums.at(1) } else { nums.first() }
+            let num-str = if in-app { numbering("A", ch) } else { str(ch) }
             strong(text(fill: link-color, link(loc)[
               #num-str
               #h(1em)
@@ -524,16 +584,19 @@
           }
         ]
       } else {
-        // Level 2, 3, 4 — indented blue (LaTeX report class indents)
-        let indent = if it.level == 2 { 1.5em } else if it.level == 3 { 3.8em } else { 7.0em }
+        // Level 3, 4, 5 — indented blue (LaTeX report class indents)
+        let indent = if it.level == 3 { 1.5em } else if it.level == 4 { 3.8em } else { 7.0em }
         pad(left: indent,
           context {
             let loc = it.element.location()
             let pg = counter(page).at(loc).first()
             let in-app = _in-appendix.at(loc)
             let nums = counter(heading).at(loc)
+            // Strip the part counter so section numbers display as "1.1" not "1.1.1"
+            let display-nums = if nums.len() >= 2 { nums.slice(1) } else { nums }
             let num-str = if not unnumbered {
-              if in-app { numbering("A.1.1", ..nums) } else { numbering("1.1.1", ..nums) }
+              if in-app { numbering("A.1.1", ..display-nums) }
+              else      { numbering("1.1.1", ..display-nums) }
             } else { "" }
             text(fill: link-color, link(loc)[
               #if not unnumbered [#num-str#h(0.5em)]

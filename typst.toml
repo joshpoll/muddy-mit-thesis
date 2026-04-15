@@ -1,6 +1,6 @@
 [package]
 name = "muddy-mit-thesis"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Josh Pollock <jopo@mit.edu>"]
 license = "MIT"
 description = "Typst port of the MIT mitthesis LaTeX template (v1.22). Produces a thesis document conforming to MIT Libraries dissertation formatting requirements."

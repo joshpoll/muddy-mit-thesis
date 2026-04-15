@@ -69,7 +69,7 @@
 // ─── List of figures ─────────────────────────────────────────────────────────
 // Use heading(numbering: none) so LoF appears in the TOC without getting a
 // chapter number (Typst's outline() sets outlined:false on its own title).
-#heading(numbering: none)[List of Figures]
+#heading(level: 2, numbering: none)[List of Figures]
 #outline(
   title:  none,
   target: figure.where(kind: image),
@@ -77,7 +77,7 @@
 )
 
 // ─── List of tables ──────────────────────────────────────────────────────────
-#heading(numbering: none)[List of Tables]
+#heading(level: 2, numbering: none)[List of Tables]
 #outline(
   title:  none,
   target: figure.where(kind: table),
