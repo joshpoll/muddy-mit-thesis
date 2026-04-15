@@ -1,7 +1,7 @@
 // MIT-Thesis.typ — Main document
 // Compile with:  typst compile MIT-Thesis.typ
 
-#import "@preview/muddy-mit-thesis:0.1.0": mitthesis, start-appendix, tracked
+#import "@preview/muddy-mit-thesis:0.2.0": mitthesis, start-appendix, tracked
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  Apply the template
@@ -88,7 +88,41 @@
 //  Chapters
 // ═══════════════════════════════════════════════════════════════════════════
 
+= Theoretical Background
+
 #include "chapter1.typ"
+
+= Experimental Results
+
+== Apparatus and Methods
+
+#lorem(80)
+
+=== The Viscosity Apparatus
+
+#lorem(60)
+
+=== Calibration Procedure
+
+#lorem(50)
+
+== Measurements and Analysis
+
+#lorem(70)
+
+#figure(
+  rect(width: 8cm, height: 5.5cm, fill: luma(210), stroke: 0.5pt),
+  caption: [Viscosity of air as a function of temperature.],
+  kind: image,
+)
+
+=== Sources of Error
+
+#lorem(55)
+
+== Discussion
+
+#lorem(65)
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  Appendices
